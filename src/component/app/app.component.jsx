@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import CountersComponent from "../counters/counters.component";
 import NavbarComponent from "../navbar/navbar.component";
+import AboutComponent from "../about/about.component";
+import ContactComponent from "../contact/contact.component";
+import HelpComponent from "../help/help.component";
+import HomeComponent from "../home/home.component";
+import ErrorComponent from "../error/error.component";
+import ShopComponent from "../shop/shop.component";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 class AppComponent extends Component{
-    constructor() {
-        super();
-        console.log('app component constructor called.');
-    }
-    componentDidMount() {
-        // perfect place for ajax call and update the state
-        console.log('app mounted.');
-    }
-
     state = {
         counters: [
             {id: 1, value: 0},
@@ -24,19 +21,23 @@ class AppComponent extends Component{
 
 
     render() {
-        console.log('app rendered.');
         return(
-            <React.Fragment>
-                <NavbarComponent totalCounters={this.state.counters.length}/>
-                <main className='container'>
-                    <CountersComponent
-                        onRest={this.handleReset}
-                        onIncrement={this.handleIncrement}
-                        onDelete={this.handleDelete}
-                        counters={this.state.counters}
-                    />
-                </main>
-            </React.Fragment>
+            <BrowserRouter>
+                <React.Fragment>
+                    <NavbarComponent totalCounters={this.state.counters.length}/>
+
+                    <main className='container'>
+                        <Switch>
+                            <Route path='/' exact component={HomeComponent}/>
+                            <Route path='/about' component={AboutComponent}/>
+                            <Route path='/contact' component={ContactComponent}/>
+                            <Route path='/help' component={HelpComponent}/>
+                            <Route path='/shop' component={ShopComponent}/>
+                            <Route path='/**' component={ErrorComponent}/>
+                        </Switch>
+                    </main>
+                </React.Fragment>
+            </BrowserRouter>
         );
     }
     handleDelete = counterId => {
